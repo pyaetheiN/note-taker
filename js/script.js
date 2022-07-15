@@ -1,13 +1,18 @@
-// selectors
+// global selectors
 const form = document.querySelector('form');
 const textArea = document.querySelector('textarea');
 const noteList = document.querySelector('.note__list');
 const noNotes = document.querySelector('.no-notes');
+const modalContainer = document.querySelector('.modal__container');
+const modalClose = document.querySelector('.modal__close');
 
 // event listeners
 form.addEventListener('submit', addNote);
 noteList.addEventListener('click', deleteNote);
-// noteList.addEventListener('click', viewModal);
+noteList.addEventListener('click', viewModal);
+modalClose.addEventListener('click', () => {
+  modalContainer.classList.remove('active');
+})
 
 // functions
 function addNote(e){
@@ -87,9 +92,13 @@ function deleteNote(e){
   // }
 }
 
-// function viewModal(e){
+function viewModal(e){
+  const modalTitle = document.querySelector('.modal__title');
+  const modalBody = document.querySelector('.modal__content');
 
-//   if(e.target.classList.contains('view-btn')){
-
-//   }
-// }
+  if(e.target.classList.contains('view-btn')){
+    modalContainer.classList.add('active');
+    modalTitle.innerText = e.target.previousElementSibling.previousElementSibling.innerText;
+    modalBody.innerText = e.target.previousElementSibling.innerText;
+  }
+}

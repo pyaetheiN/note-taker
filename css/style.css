@@ -115,4 +115,27 @@ h1 {
   font-size: 0.8125em;
   overflow-wrap: break-word;
   min-height: 31px;
+}
+
+.modal {
+  background-color: rgb(238, 238, 238);
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  margin: 0 auto;
+  padding: 1.5em 2.5em;
+}
+.modal__container {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.5s;
+}
+.modal__container.active {
+  pointer-events: auto;
+  opacity: 1;
 }/*# sourceMappingURL=style.css.map */
