@@ -130,7 +130,7 @@ h1{
       font-size: 0.8125em;
       overflow-wrap: break-word;
       // word-wrap: break-word;
-      min-height: 31px;
+      // min-height: 31px;
     }
   }
 }
@@ -138,12 +138,14 @@ h1{
 // modal
 .modal{
   background-color: rgb(238, 238, 238);
-  width: max-content;
+  max-width: 500px;
   margin: 0 auto;
   padding: 1.5em 2.5em;
+  position: relative;
 
   &__container{
     position: fixed;
+    // dim background
     background-color: rgba(0, 0, 0, 0.5);
     inset: 0;
     display: grid;
@@ -155,6 +157,34 @@ h1{
     &.active{
       pointer-events: auto;
       opacity: 1;
+    }
+  }
+
+  &__content{
+    overflow-wrap: break-word;
+    padding: 1em 0;
+  }
+
+  &__close{
+    position: absolute;
+    content: '';
+    top: 15px;
+    right: 5px;
+    padding: 0.5rem;
+    cursor: pointer;
+
+    &--line{
+      width: 15px;
+      height: 1px;
+      background-color: black;
+    }
+
+    &--line:nth-of-type(1){
+      transform: rotate(135deg) translate(1px, -1px); // translate(1px, 1px)
+    }
+
+    &--line:nth-of-type(2){
+      transform: rotate(-135deg);
     }
   }
 }

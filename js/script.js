@@ -4,6 +4,8 @@ const textArea = document.querySelector('textarea');
 const noteList = document.querySelector('.note__list');
 const noNotes = document.querySelector('.no-notes');
 const modalContainer = document.querySelector('.modal__container');
+const modalTitle = document.querySelector('.modal__title');
+const modalBody = document.querySelector('.modal__content');
 const modalClose = document.querySelector('.modal__close');
 
 // event listeners
@@ -29,17 +31,9 @@ function addNote(e){
     noNotes.remove();
   }
 
-  // omit text
-  const MAX_BODY_LENGTH = 60;
-
-  if(textAreaInput.innerText.length > MAX_BODY_LENGTH){
-    textAreaInput.innerHTML = `
-    ${textAreaInput.innerText.substring(0, MAX_BODY_LENGTH)}
-    ${textAreaInput.innerText.length > MAX_BODY_LENGTH ? '...' : ''}
-    `;
-  }
-
   console.log(textAreaInput.innerText.length);
+
+  omitText(textAreaInput, 35);
 
   const noteDiv = document.createElement('div');
   noteDiv.classList.add('note');
@@ -74,27 +68,36 @@ function addNote(e){
   }
 }
 
+function omitText(textAreaInput, limit) {
+  const MAX_BODY_LENGTH = limit;
+
+  if(textAreaInput.innerText.length > MAX_BODY_LENGTH){
+    textAreaInput.innerHTML = `
+    ${textAreaInput.innerText.substring(0, MAX_BODY_LENGTH)}
+    ${textAreaInput.innerText.length > MAX_BODY_LENGTH ? '...' : ''}
+    `;
+  }
+}
+
 function deleteNote(e){
 
   if(e.target.classList.contains('delete-btn')){
     e.target.parentElement.remove();
-
-    // if(noteList.children.length = 1){
-    //   noteList.appendChild(noNotes);
-    // }
   }
 
-  // for(i = 0; i < noteList.children.length; i++){
-  //   // console.log(noteList.children.length);
-  //   const updatedNoteIndex = noteList.children.length - 1;
-  //   // e.target.previousElementSibling.previousElementSibling.previousElementSibling.innerText = `Note ${updatedNoteIndex}`;
-  //   // console.log(updatedNoteIndex);
-  // }
+  if(noteList.children.length > 1){
+    noteList.style.gridTemplateColumns = '50% 50%';
+  } 
+  else if(noteList.children.length === 0){
+    noteList.appendChild(noNotes);
+  } 
+  else{
+    noteList.style.gridTemplateColumns = '100%';
+  }
 }
 
 function viewModal(e){
-  const modalTitle = document.querySelector('.modal__title');
-  const modalBody = document.querySelector('.modal__content');
+  e.stopPropagation();
 
   if(e.target.classList.contains('view-btn')){
     modalContainer.classList.add('active');
@@ -102,3 +105,10 @@ function viewModal(e){
     modalBody.innerText = e.target.previousElementSibling.innerText;
   }
 }
+
+window.addEventListener('click', (e) => {
+  const modal = document.querySelector('.modal');
+  if(e.target !== modal && e.target !== modalTitle && e.target !== modalBody){
+    modalContainer.classList.remove('active');
+  }
+})

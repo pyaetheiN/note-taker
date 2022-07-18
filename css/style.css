@@ -114,16 +114,14 @@ h1 {
   margin: 0.5rem 0 1rem;
   font-size: 0.8125em;
   overflow-wrap: break-word;
-  min-height: 31px;
 }
 
 .modal {
   background-color: rgb(238, 238, 238);
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
+  max-width: 500px;
   margin: 0 auto;
   padding: 1.5em 2.5em;
+  position: relative;
 }
 .modal__container {
   position: fixed;
@@ -138,4 +136,27 @@ h1 {
 .modal__container.active {
   pointer-events: auto;
   opacity: 1;
+}
+.modal__content {
+  overflow-wrap: break-word;
+  padding: 1em 0;
+}
+.modal__close {
+  position: absolute;
+  content: "";
+  top: 15px;
+  right: 5px;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+.modal__close--line {
+  width: 15px;
+  height: 1px;
+  background-color: black;
+}
+.modal__close--line:nth-of-type(1) {
+  transform: rotate(135deg) translate(1px, -1px);
+}
+.modal__close--line:nth-of-type(2) {
+  transform: rotate(-135deg);
 }/*# sourceMappingURL=style.css.map */
