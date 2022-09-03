@@ -135,11 +135,9 @@ h1{
 
     &__list{
       text-align: initial;
-      // width: clamp(300px, 88vw, 850px);
       max-width: 850px;
       margin: 0.5rem auto 0;
       display: grid;
-      // align-items: flex-start;
       gap: 0.5rem;
     }
 
@@ -147,8 +145,8 @@ h1{
       margin: 0.5rem 0 1rem;
       font-size: 0.8125em;
       // overflow-wrap: break-word;
-      text-overflow: ellipsis;
       overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }

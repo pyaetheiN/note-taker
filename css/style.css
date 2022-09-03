@@ -127,8 +127,8 @@ h1 {
 .form .note__desc {
   margin: 0.5rem 0 1rem;
   font-size: 0.8125em;
-  text-overflow: ellipsis;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .modal {
