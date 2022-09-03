@@ -32,7 +32,7 @@ Users should be able to:
 
 ### Links
 
-- Live Site URL: pyaethein.github.io/note-taker/
+- Live Site URL: https://pyaethein.github.io/note-taker/
 
 ## My process
 
