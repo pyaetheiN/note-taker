@@ -24,7 +24,7 @@ Users should be able to:
 - View details via pop-up modal
 - Delete notes
 - Receive an error message when the `form` is submitted if:
-  - Any `input` field is empty. The message for this error should say *"Please enter all fields"*
+  - Any `input` field is empty. The message for this error should say *"Please enter all the fields"*
 
 ### Screenshot
 
@@ -32,7 +32,7 @@ Users should be able to:
 
 ### Links
 
-- Live Site URL: 
+- Live Site URL: pyaethein.github.io/note-taker/
 
 ## My process
 
@@ -63,5 +63,5 @@ Users should be able to:
 
 ## Author
 
-- Email - mailto:pyaethein246@gmail.com
+- Email - pyaethein246@gmail.com
 - Twitter - [@pt_boyyy](https://www.twitter.com/pt_boyyy)
