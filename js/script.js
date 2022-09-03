@@ -5,10 +5,12 @@ const textAreaTitle = document.querySelector('.text-area__title');
 const textAreaNote = document.querySelector('.text-area__note');
 const noteList = document.querySelector('.note__list');
 const noNotes = document.querySelector('.no-notes');
+const modal = document.querySelector('.modal');
 const modalContainer = document.querySelector('.modal__container');
 const modalTitle = document.querySelector('.modal__title');
 const modalBody = document.querySelector('.modal__content');
 const modalClose = document.querySelector('.modal__close');
+const line = document.querySelector('hr');
 
 // event listeners
 form.addEventListener('submit', addNote);
@@ -17,11 +19,15 @@ noteList.addEventListener('click', viewModal);
 modalClose.addEventListener('click', () => {
   modalContainer.classList.remove('active');
 })
-window.addEventListener('click', (e) => {
+document.addEventListener('click', (e) => {
   const modal = document.querySelector('.modal');
-  if(e.target !== modal && e.target !== modalTitle && e.target !== modalBody){
+  if(e.target !== modal && e.target !== modalTitle && e.target !== modalBody && e.target !== line){
     modalContainer.classList.remove('active');
   }
+  // if(e.target !== modal){
+  //   e.stopPropagation();
+  //   modalContainer.classList.remove('active');
+  // }
 })
 document.addEventListener('DOMContentLoaded', getLocalNotes);
 
@@ -82,7 +88,7 @@ function addNote(e){
   }
 }
 
-// css ellipsis is the saviour
+// css ellipsis is the saviour xD
 
 // function omitText(textAreaNoteInput, limit) {
 //   const MAX_BODY_LENGTH = limit;
@@ -129,12 +135,14 @@ function deleteNote(e){
 }
 
 function viewModal(e){
-  e.stopPropagation();
-
+  e.stopPropagation(); // stopPropagation() is used to prevent click event on document from firing
+  // console.log(e.target);
   if(e.target.classList.contains('view-btn')){
     modalContainer.classList.add('active');
     modalTitle.innerText = e.target.previousElementSibling.previousElementSibling.innerText;
     modalBody.innerText = e.target.previousElementSibling.innerText;
+
+    console.log('clicked')
   }
 }
 
