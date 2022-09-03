@@ -1,13 +1,14 @@
 // global selectors
 const form = document.querySelector('form');
-const textArea = document.querySelector('textarea');
+const error = document.querySelector('.error-msg');
+const textAreaTitle = document.querySelector('.text-area__title');
+const textAreaNote = document.querySelector('.text-area__note');
 const noteList = document.querySelector('.note__list');
 const noNotes = document.querySelector('.no-notes');
 const modalContainer = document.querySelector('.modal__container');
 const modalTitle = document.querySelector('.modal__title');
 const modalBody = document.querySelector('.modal__content');
 const modalClose = document.querySelector('.modal__close');
-const notes = document.querySelectorAll('.note');
 
 // event listeners
 form.addEventListener('submit', addNote);
@@ -28,36 +29,35 @@ document.addEventListener('DOMContentLoaded', getLocalNotes);
 function addNote(e){
   e.preventDefault();
 
-  const textAreaInput = document.createElement('p');
-  textAreaInput.classList.add('note__desc')
-  textAreaInput.innerText = textArea.value;
+  const textAreaTitleInput = document.createElement('h3');
+  textAreaTitleInput.classList.add('note__title');
+  textAreaTitleInput.innerText = textAreaTitle.value;
 
-  if(textArea.value === ''){
+  const textAreaNoteInput = document.createElement('p');
+  textAreaNoteInput.classList.add('note__desc')
+  textAreaNoteInput.innerText = textAreaNote.value;
+
+  if(textAreaTitle.value === '' || textAreaNote.value === ''){
+    error.style.display = 'block';
     return;
-  } else{
-    textArea.value = '';
+  } 
+  else{
+    error.style.display = 'none';
+    textAreaTitle.value = '';
+    textAreaNote.value = '';
     noNotes.remove();
   }
 
-  console.log(textAreaInput.innerText.length);
-
-  // omitText(textAreaInput, 35);
+  // omitText(textAreaNoteInput, 35);
 
   const noteDiv = document.createElement('div');
   noteDiv.classList.add('note');
 
-  const noteIndex = document.createElement('h3');
-  noteIndex.classList.add('note__index');
-  
-  // noteList.children.length = zero by default
-  // console.log(noteList.children.length);
-  const updatedNoteIndex = noteList.children.length + 1;
-  noteIndex.innerText = `Note ${updatedNoteIndex}`;
-
   const data = {
-    index: updatedNoteIndex, 
-    desc: textAreaInput.innerText
+    title: textAreaTitleInput.innerText, 
+    desc: textAreaNoteInput.innerText
   }
+
   saveLocalNotes(data);
 
   const viewBtn = document.createElement('button');
@@ -68,8 +68,8 @@ function addNote(e){
   deleteBtn.classList.add('delete-btn');
   deleteBtn.innerText = 'Delete';
 
-  noteDiv.appendChild(noteIndex);
-  noteDiv.appendChild(textAreaInput);
+  noteDiv.appendChild(textAreaTitleInput);
+  noteDiv.appendChild(textAreaNoteInput);
   noteDiv.appendChild(viewBtn);
   noteDiv.appendChild(deleteBtn);
 
@@ -84,25 +84,25 @@ function addNote(e){
 
 // css ellipsis is the saviour
 
-// function omitText(textAreaInput, limit) {
+// function omitText(textAreaNoteInput, limit) {
 //   const MAX_BODY_LENGTH = limit;
 
-//   if(textAreaInput.innerText.length > MAX_BODY_LENGTH){
-//     textAreaInput.innerHTML = `
-//     ${textAreaInput.innerText.substring(0, MAX_BODY_LENGTH)}
-//     ${textAreaInput.innerText.length > MAX_BODY_LENGTH ? '...' : ''}
+//   if(textAreaNoteInput.innerText.length > MAX_BODY_LENGTH){
+//     textAreaNoteInput.innerHTML = `
+//     ${textAreaNoteInput.innerText.substring(0, MAX_BODY_LENGTH)}
+//     ${textAreaNoteInput.innerText.length > MAX_BODY_LENGTH ? '...' : ''}
 //     `;
 //   }
 // }
 
-// function omitText(textAreaInput, limit) {
+// function omitText(textAreaNoteInput, limit) {
 //   let MAX_BODY_LENGTH = limit;
 
-//   if(textAreaInput.innerText.length > MAX_BODY_LENGTH){
-//     let text = textAreaInput.innerText;
+//   if(textAreaNoteInput.innerText.length > MAX_BODY_LENGTH){
+//     let text = textAreaNoteInput.innerText;
 //     text = text.substring(0, MAX_BODY_LENGTH);
 //     console.log(text);
-//     textAreaInput.innerHTML = `
+//     textAreaNoteInput.innerHTML = `
 //       ${text}...
 //     `;
 //   }
@@ -114,8 +114,8 @@ function deleteNote(e){
     e.target.parentElement.remove();
   }
 
-  console.log(e.target.parentElement.children[1].innerText);
-  deleteLocalNotes(e.target.parentElement.children[1].innerText);
+  // console.log(e.target.parentElement.children[0].innerText);
+  deleteLocalNotes(e.target.parentElement.children[0].innerText);
 
   if(noteList.children.length > 1){
     noteList.style.gridTemplateColumns = '50% 50%';
@@ -126,8 +126,6 @@ function deleteNote(e){
   else{
     noteList.style.gridTemplateColumns = '100%';
   }
-
-  // deleteLocalNotes(e.)
 }
 
 function viewModal(e){
@@ -154,7 +152,7 @@ function saveLocalNotes(note){
   localStorage.setItem('notes', JSON.stringify(localNotes));
 }
 
-function deleteLocalNotes(desc){
+function deleteLocalNotes(title){
   let localNotes;
 
   if(localStorage.getItem('notes') === null){
@@ -165,7 +163,7 @@ function deleteLocalNotes(desc){
   }
 
   localNotes.forEach(localNote => {
-    if(localNote.desc === desc){
+    if(localNote.title === title){
       localNotes.splice(localNotes.indexOf(localNote), 1);
     }
   })
@@ -183,46 +181,46 @@ function getLocalNotes(){
     localNotes = JSON.parse(localStorage.getItem('notes'));
   }
 
-  if(notes.length === 0){
+  if(localNotes.length === 0){
+    return;
+  } 
+  else{
     noNotes.remove();
-    console.log('removed!');
+
+    localNotes.forEach(localNote => {
+      console.log('executed!');
+  
+      const textAreaNoteInput = document.createElement('p');
+      textAreaNoteInput.classList.add('note__desc')
+      textAreaNoteInput.innerText = localNote.desc;
+    
+      const noteDiv = document.createElement('div');
+      noteDiv.classList.add('note');
+    
+      const textAreaTitleInput = document.createElement('h3');
+      textAreaTitleInput.classList.add('note__title');
+      textAreaTitleInput.innerText = localNote.title;
+    
+      const viewBtn = document.createElement('button');
+      viewBtn.classList.add('view-btn');
+      viewBtn.innerText = 'View Detail';
+    
+      const deleteBtn = document.createElement('button');
+      deleteBtn.classList.add('delete-btn');
+      deleteBtn.innerText = 'Delete';
+    
+      noteDiv.appendChild(textAreaTitleInput);
+      noteDiv.appendChild(textAreaNoteInput);
+      noteDiv.appendChild(viewBtn);
+      noteDiv.appendChild(deleteBtn);
+    
+      noteList.appendChild(noteDiv);
+    
+      if(noteList.children.length > 1){
+        noteList.style.gridTemplateColumns = '50% 50%';
+      } else{
+        noteList.style.gridTemplateColumns = '100%';
+      }
+    })
   }
-
-  localNotes.forEach(localNote => {
-    console.log('executed!');
-
-    const textAreaInput = document.createElement('p');
-    textAreaInput.classList.add('note__desc')
-    textAreaInput.innerText = localNote.desc;
-  
-    const noteDiv = document.createElement('div');
-    noteDiv.classList.add('note');
-  
-    const noteIndex = document.createElement('h3');
-    noteIndex.classList.add('note__index');
-  
-    const updatedNoteIndex = localNote.index;
-    noteIndex.innerText = `Note ${updatedNoteIndex}`;
-  
-    const viewBtn = document.createElement('button');
-    viewBtn.classList.add('view-btn');
-    viewBtn.innerText = 'View Detail';
-  
-    const deleteBtn = document.createElement('button');
-    deleteBtn.classList.add('delete-btn');
-    deleteBtn.innerText = 'Delete';
-  
-    noteDiv.appendChild(noteIndex);
-    noteDiv.appendChild(textAreaInput);
-    noteDiv.appendChild(viewBtn);
-    noteDiv.appendChild(deleteBtn);
-  
-    noteList.appendChild(noteDiv);
-  
-    if(noteList.children.length > 1){
-      noteList.style.gridTemplateColumns = '50% 50%';
-    } else{
-      noteList.style.gridTemplateColumns = '100%';
-    }
-  })
 }
